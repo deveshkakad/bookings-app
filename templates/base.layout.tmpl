@@ -154,7 +154,7 @@
             })
         }
 
-     /*   {{with .Error}}
+        {{with .Error}}
             notify("{{.}}", "error");
         {{end}}
 
@@ -164,7 +164,7 @@
 
         {{with .Warning}}
         notify("{{.}}", "warning");
-        {{end}}*/
+        {{end}}
 
         function Prompt() {
             let toast = function (c) {
