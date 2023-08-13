@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"github.com/deveshkakad/bookings-app/pkg/config"
-	"github.com/deveshkakad/bookings-app/pkg/models"
-	"github.com/deveshkakad/bookings-app/pkg/render"
+	"github.com/deveshkakad/bookings-app/internal/config"
+	"github.com/deveshkakad/bookings-app/internal/models"
+	"github.com/deveshkakad/bookings-app/internal/render"
 )
 
 // Repo the repository used by the handlers
@@ -31,18 +32,18 @@ func NewHandlers(r *Repository) {
 
 // Home is the handler for the home page
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 // About is the handler for the about page
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{})
 }
 
 // Reservation renders the make a reservation page and displays form
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 
-	render.RenderTemplate(w, "make-reservation.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
 }
 
 // PostReservation handles the posting of a reservation form
@@ -82,17 +83,17 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 */
 // Generals renders the room page
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "generals.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "generals.page.tmpl", &models.TemplateData{})
 }
 
 // Majors renders the room page
 func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "majors.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "majors.page.tmpl", &models.TemplateData{})
 }
 
 // Availability renders the search availability page
 func (m *Repository) Availability(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "search-availability.page.tmpl", &models.TemplateData{})
 }
 
 // PostAvailability handles post
@@ -109,7 +110,7 @@ type jsonResponse struct {
 }
 
 // AvailabilityJSON handles request for availability and sends JSON response
-/*func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	resp := jsonResponse{
 		OK:      true,
 		Message: "Available!",
@@ -117,17 +118,17 @@ type jsonResponse struct {
 
 	out, err := json.MarshalIndent(resp, "", "     ")
 	if err != nil {
-		helpers.ServerError(w, err)
+		//helpers.ServerError(w, err)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
-}*/
+}
 
 // Contact renders the contact page
 func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "contact.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "contact.page.tmpl", &models.TemplateData{})
 }
 
 // ReservationSummary displays the res summary page
