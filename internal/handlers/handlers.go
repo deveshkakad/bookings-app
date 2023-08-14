@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/deveshkakad/bookings-app/internal/config"
+	"github.com/deveshkakad/bookings-app/internal/forms"
 	"github.com/deveshkakad/bookings-app/internal/models"
 	"github.com/deveshkakad/bookings-app/internal/render"
 )
@@ -42,15 +43,20 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 // Reservation renders the make a reservation page and displays form
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-
-	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{})
+	var emptyReservation models.Reservation
+	data := make(map[string]interface{})
+	data["reservation"] = emptyReservation
+	render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+		Data: data,
+	})
 }
 
 // PostReservation handles the posting of a reservation form
-/*func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		helpers.ServerError(w, err)
+		//helpers.ServerError(w, err)
 		return
 	}
 
@@ -70,7 +76,7 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 	if !form.Valid() {
 		data := make(map[string]interface{})
 		data["reservation"] = reservation
-		render.Template(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+		render.RenderTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
 			Form: form,
 			Data: data,
 		})
@@ -80,7 +86,7 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 	m.App.Session.Put(r.Context(), "reservation", reservation)
 	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 }
-*/
+
 // Generals renders the room page
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "generals.page.tmpl", &models.TemplateData{})
