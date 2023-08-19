@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/deveshkakad/bookings-app/internal/config"
@@ -138,10 +139,11 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 }
 
 // ReservationSummary displays the res summary page
-/*func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
+func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-		m.App.ErrorLog.Println("Can't get reservation from session")
+		//m.App.ErrorLog.Println("Can't get reservation from session")
+		log.Println("Cannot get item from session")
 		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
@@ -152,8 +154,5 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["reservation"] = reservation
 
-	render.Template(w, r, "reservation-summary.page.tmpl", &models.TemplateData{
-		Data: data,
-	})
+	render.RenderTemplate(w, r, "reservation-summary.page.tmpl", &models.TemplateData{})
 }
-*/
