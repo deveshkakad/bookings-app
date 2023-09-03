@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/deveshkakad/bookings-app/internal/config"
+	"github.com/deveshkakad/bookings-app/internal/config/helpers"
 	"github.com/deveshkakad/bookings-app/internal/forms"
 	"github.com/deveshkakad/bookings-app/internal/models"
 	"github.com/deveshkakad/bookings-app/internal/render"
@@ -57,7 +58,7 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		//helpers.ServerError(w, err)
+		helpers.ServerError(w, err)
 		return
 	}
 
@@ -125,7 +126,7 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 	out, err := json.MarshalIndent(resp, "", "     ")
 	if err != nil {
-		//helpers.ServerError(w, err)
+		helpers.ServerError(w, err)
 		return
 	}
 
@@ -142,7 +143,7 @@ func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-		//m.App.ErrorLog.Println("Can't get reservation from session")
+		m.App.ErrorLog.Println("Can't get reservation from session")
 		log.Println("Cannot get item from session")
 		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
